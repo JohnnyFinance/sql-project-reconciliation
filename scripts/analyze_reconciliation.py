@@ -4,13 +4,22 @@ import csv
 import sqlite3
 from pathlib import Path
 
-from reconcile_projects import (
-    insert_employees,
-    insert_funding,
-    insert_labor,
-    insert_projects,
-    load_csv_rows,
-)
+try:
+    from .reconcile_projects import (
+        insert_employees,
+        insert_funding,
+        insert_labor,
+        insert_projects,
+        load_csv_rows,
+    )
+except ImportError:  # pragma: no cover - fallback for direct script execution
+    from reconcile_projects import (
+        insert_employees,
+        insert_funding,
+        insert_labor,
+        insert_projects,
+        load_csv_rows,
+    )
 
 ROOT = Path(__file__).resolve().parent.parent
 DB_PATH = ROOT / "sql_project_reconciliation.db"
