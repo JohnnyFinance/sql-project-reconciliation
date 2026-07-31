@@ -1,0 +1,6 @@
+department,project_count,total_budget,total_funding,total_labor_cost,projects_missing_funding
+Clinical Operations,1,150000.0,175000.0,1297.0,0
+Finance,1,120000.0,110000.0,1115.38,0
+IT,2,150000.0,150000.0,1351.75,0
+Operations,1,80000.0,90000.0,927.0,0
+Quality,1,70000.0,0.0,318.0,1

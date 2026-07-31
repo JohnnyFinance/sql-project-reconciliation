@@ -1,0 +1,6 @@
+agreement_id,project_id,agreement_type,amount,start_date,end_date
+FA-001,P-100,Grant,175000,2025-01-01,2025-12-31
+FA-002,P-101,Internal,90000,2025-02-01,2025-11-30
+FA-003,P-102,Capital,110000,2025-03-01,2026-01-31
+FA-004,P-103,Internal,65000,2024-06-01,2024-12-31
+FA-005,P-104,Grant,85000,2025-04-01,2025-10-31
