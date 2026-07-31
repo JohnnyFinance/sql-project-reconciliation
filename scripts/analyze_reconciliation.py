@@ -4,8 +4,18 @@ import csv
 import sqlite3
 from pathlib import Path
 
+from reconcile_projects import (
+    insert_employees,
+    insert_funding,
+    insert_labor,
+    insert_projects,
+    load_csv_rows,
+)
+
 ROOT = Path(__file__).resolve().parent.parent
 DB_PATH = ROOT / "sql_project_reconciliation.db"
+SCHEMA_PATH = ROOT / "schema.sql"
+DATA_DIR = ROOT / "data"
 OUTPUT_DIR = ROOT / "output"
 
 
@@ -18,9 +28,40 @@ def export_query_to_csv(conn: sqlite3.Connection, query: str, output_path: Path)
         writer.writerows(cursor.fetchall())
 
 
+def initialize_database(conn: sqlite3.Connection) -> None:
+    conn.execute("PRAGMA foreign_keys = ON")
+    conn.executescript(SCHEMA_PATH.read_text(encoding="utf-8"))
+    insert_projects(conn, load_csv_rows(DATA_DIR / "projects.csv"))
+    insert_employees(conn, load_csv_rows(DATA_DIR / "employees.csv"))
+    insert_labor(conn, load_csv_rows(DATA_DIR / "labor.csv"))
+    insert_funding(conn, load_csv_rows(DATA_DIR / "funding_agreements.csv"))
+    conn.commit()
+
+
+def database_is_initialized(conn: sqlite3.Connection) -> bool:
+    existing_tables = {
+        row[0]
+        for row in conn.execute(
+            "SELECT name FROM sqlite_master WHERE type='table'"
+        )
+    }
+    required_tables = {"projects", "employees", "labor", "funding_agreements"}
+    if not required_tables.issubset(existing_tables):
+        return False
+
+    for table_name in required_tables:
+        if conn.execute(f"SELECT COUNT(*) FROM {table_name}").fetchone()[0] == 0:
+            return False
+
+    return True
+
+
 def export_analysis_outputs() -> None:
     OUTPUT_DIR.mkdir(exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
+
+    if not DB_PATH.exists() or not database_is_initialized(conn):
+        initialize_database(conn)
 
     missing_funding_query = """
     SELECT
