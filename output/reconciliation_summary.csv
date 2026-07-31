@@ -2,6 +2,6 @@ project_id,project_name,department,status,budget,funding_amount,labor_hours,labo
 P-100,Oncology Expansion,Clinical Operations,Active,150000.0,175000.0,14.5,1297.0,25000.0,Funding present
 P-101,Patient Access Redesign,Operations,Active,80000.0,90000.0,11.0,927.0,10000.0,Funding present
 P-102,Revenue Cycle Automation,Finance,Planning,120000.0,110000.0,12.5,1115.38,-10000.0,Funding present
-P-103,Telehealth Support,IT,Completed,60000.0,65000.0,5.0,458.75,5000.0,Funding present
+P-103,Telehealth Support,IT,Active,60000.0,65000.0,5.0,458.75,5000.0,Funding present
 P-104,Lab Reporting Upgrade,IT,Active,90000.0,85000.0,10.0,893.0,-5000.0,Funding present
 P-105,Compliance Audit,Quality,Pending,70000.0,0,4.0,318.0,-70000.0,Missing funding

@@ -4,13 +4,22 @@ import csv
 import sqlite3
 from pathlib import Path
 
-from reconcile_projects import (
-    insert_employees,
-    insert_funding,
-    insert_labor,
-    insert_projects,
-    load_csv_rows,
-)
+try:
+    from .reconcile_projects import (
+        insert_employees,
+        insert_funding,
+        insert_labor,
+        insert_projects,
+        load_csv_rows,
+    )
+except ImportError:  # pragma: no cover - fallback for direct script execution
+    from reconcile_projects import (
+        insert_employees,
+        insert_funding,
+        insert_labor,
+        insert_projects,
+        load_csv_rows,
+    )
 
 ROOT = Path(__file__).resolve().parent.parent
 DB_PATH = ROOT / "sql_project_reconciliation.db"
@@ -38,6 +47,34 @@ def initialize_database(conn: sqlite3.Connection) -> None:
     conn.commit()
 
 
+def refresh_tables_from_csv(conn: sqlite3.Connection) -> None:
+    """
+    Clear existing rows from the tables in a foreign-key-safe order and
+    reload the CSV files from data/.
+
+    Deletion order (safe for foreign keys):
+      1. labor (references projects, employees)
+      2. funding_agreements (references projects)
+      3. projects
+      4. employees
+
+    Insertion order: projects, employees, funding_agreements, labor
+    """
+    conn.execute("PRAGMA foreign_keys = ON")
+    # Delete rows in foreign-key-safe order
+    conn.execute("DELETE FROM labor")
+    conn.execute("DELETE FROM funding_agreements")
+    conn.execute("DELETE FROM projects")
+    conn.execute("DELETE FROM employees")
+
+    # Insert fresh data. Parents first, then children.
+    insert_projects(conn, load_csv_rows(DATA_DIR / "projects.csv"))
+    insert_employees(conn, load_csv_rows(DATA_DIR / "employees.csv"))
+    insert_funding(conn, load_csv_rows(DATA_DIR / "funding_agreements.csv"))
+    insert_labor(conn, load_csv_rows(DATA_DIR / "labor.csv"))
+    conn.commit()
+
+
 def database_is_initialized(conn: sqlite3.Connection) -> bool:
     existing_tables = {
         row[0]
@@ -59,9 +96,14 @@ def database_is_initialized(conn: sqlite3.Connection) -> bool:
 def export_analysis_outputs() -> None:
     OUTPUT_DIR.mkdir(exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
+    conn.execute("PRAGMA foreign_keys = ON")
 
+    # Create schema and load CSVs if DB is missing or not initialized.
     if not DB_PATH.exists() or not database_is_initialized(conn):
         initialize_database(conn)
+    else:
+        # Refresh tables from CSV files on every run so outputs reflect latest data.
+        refresh_tables_from_csv(conn)
 
     missing_funding_query = """
     SELECT
