@@ -1,40 +1,58 @@
 # sql-project-reconciliation
+
 ## Overview
-This project simulates a project reconciliation process similar to those used by financial analysts supporting clinical operations.
+This project demonstrates a simple SQL-based reconciliation workflow for project funding and labor tracking. The example uses a SQLite database file and a Python automation script to load fictional project data, run reconciliation logic, and export files that can be used in Power BI for visual presentation.
 
-The database tracks projects, employees, labor hours, and funding agreements. Using SQL, the project identifies missing records, validates data between systems, and produces reports that support financial planning and project management. 
+The workflow is intentionally business-focused and mirrors common finance and operations reporting tasks such as identifying missing funding agreements, reconciling budgets to actual labor activity, and summarizing departmental performance.
 
-Although the data is fictional, the workflow is inspired by the types of reconciliation and financial reporting commonly performed by financial analysts in healthcare organizations.
 ## Objectives
-- Design a relational database from scratch
-- Practice SQL fundamentals
-- Perform data validation and reconciliation 
-- Generate labor cost reports
-- Identify missing project information
-- Build a portfolio project demonstrating business-focused SQL skills
----
-## Database schema
-The project contains four primary tables
-### Projects
-Stores project information including owner, status, department, and budget
-### Employees
-Stores employee information and standard labor rates.
-### Labor
-Stores hours worked by employee and project.
-### Funding Agreements
-Tracks funding agreements associated with projects.
+- Design a relational database for project reconciliation
+- Practice SQL fundamentals and reporting logic
+- Load CSV data automatically with Python
+- Create a reusable SQLite database file
+- Export Power BI-ready summaries from the database
+- Build a portfolio project that combines SQL, Python, and analytics
 
----
-## Example Business Questions
-This project answers questions such as:
-- Which projects are currently active?
-- Which projects are missing a Funding Agreement?
+## Database schema
+The project uses four core tables:
+- Projects: stores project details such as owner, department, status, and budget
+- Employees: stores employee names and standard labor rates
+- Labor: stores hours charged to projects by employee
+- Funding Agreements: stores funding agreements linked to projects
+
+## Example business questions
+The SQL queries in this project answer questions such as:
+- Which projects are missing a funding agreement?
+- Which projects have labor activity but no funding agreement?
 - What are the total labor costs by employee?
-- How many projects exist within each department?
-- Which projects have the highest budgets?
-- How many hours have employees charged to each project?
----
-## SQL Concepts Demonstrated
+- How do departments compare on budget, funding, and labor spend?
+
+## Repository structure
+```text
+sql-project-reconciliation/
+- README.md
+- schema.sql
+- queries.sql
+- scripts/reconcile_projects.py
+- data/projects.csv
+- data/employees.csv
+- data/labor.csv
+- data/funding_agreements.csv
+- output/reconciliation_summary.csv
+- output/powerbi_dashboard_data.csv
+- sql_project_reconciliation.db
+```
+
+## How to run
+1. Open a terminal in the repository root.
+2. Run: python scripts/reconcile_projects.py
+3. Review the generated SQLite database file and CSV outputs in the output/ folder.
+4. To explore the data interactively, open [notebooks/reconciliation_analysis.ipynb](C:/Users/jlina/OneDrive/Documents/Desktop/SQL Practice/sql-project-reconciliation.worktrees/sql-python-automation-reconciliation/notebooks/reconciliation_analysis.ipynb) in VS Code or Jupyter.
+
+## Notebook analysis layer
+A notebook-based analysis workflow is included in [notebooks/reconciliation_analysis.ipynb](C:/Users/jlina/OneDrive/Documents/Desktop/SQL Practice/sql-project-reconciliation.worktrees/sql-python-automation-reconciliation/notebooks/reconciliation_analysis.ipynb). It runs the analysis script in [scripts/analyze_reconciliation.py](C:/Users/jlina/OneDrive/Documents/Desktop/SQL Practice/sql-project-reconciliation.worktrees/sql-python-automation-reconciliation/scripts/analyze_reconciliation.py) and exports analyst-friendly CSV summaries for missing funding, employee labor costs, and departmental rollups.
+
+## SQL concepts demonstrated
 - CREATE TABLE
 - PRIMARY KEY
 - FOREIGN KEY
@@ -42,39 +60,18 @@ This project answers questions such as:
 - WHERE
 - ORDER BY
 - GROUP BY
-- HAVING
 - INNER JOIN
 - LEFT JOIN
-- Aggregate Functions
-- Views (Future Enhancement)
----
-## Repository Structure
+- Aggregate functions
 
-```text
-sql-project-reconciliation/
-- README.md
-- schema.sql
-- queries.sql
-- screenshots/
-```
-
----
-## Future Enhancements
-- Import CSV files automatically using Python
-- Load data into SQLite
-- Create SQL Views
-- Build stored procedures
-- Connect the database to PowerBI
-- Automate monthly reconiliation reports
----
 ## Technologies
 - SQL
 - SQLite
-- Git
-- GitHub
-- Visual Studio Code
----
+- Python
+- CSV data loading
+- Power BI-ready exports
+
 ## Author
 **Johnny Linares**
 
-Finance Professional expanding into SQL, Python, PowerBI, and automation to build scalable financial reporting solutions.
+Finance professional expanding into SQL, Python, Power BI, and automation to build scalable reporting solutions.
