@@ -47,10 +47,6 @@ sql-project-reconciliation/
 1. Open a terminal in the repository root.
 2. Run: python scripts/reconcile_projects.py
 3. Review the generated SQLite database file and CSV outputs in the output/ folder.
-4. To explore the data interactively, open [notebooks/reconciliation_analysis.ipynb](C:/Users/jlina/OneDrive/Documents/Desktop/SQL Practice/sql-project-reconciliation.worktrees/sql-python-automation-reconciliation/notebooks/reconciliation_analysis.ipynb) in VS Code or Jupyter.
-
-## Notebook analysis layer
-A notebook-based analysis workflow is included in [notebooks/reconciliation_analysis.ipynb](C:/Users/jlina/OneDrive/Documents/Desktop/SQL Practice/sql-project-reconciliation.worktrees/sql-python-automation-reconciliation/notebooks/reconciliation_analysis.ipynb). It runs the analysis script in [scripts/analyze_reconciliation.py](C:/Users/jlina/OneDrive/Documents/Desktop/SQL Practice/sql-project-reconciliation.worktrees/sql-python-automation-reconciliation/scripts/analyze_reconciliation.py) and exports analyst-friendly CSV summaries for missing funding, employee labor costs, and departmental rollups.
 
 ## SQL concepts demonstrated
 - CREATE TABLE
