@@ -30,20 +30,26 @@ The SQL queries in this project answer questions such as:
 ## Repository structure
 ```text
 sql-project-reconciliation/
+├── .gitignore
 ├── README.md
 ├── LICENSE
 ├── schema.sql
 ├── queries.sql
 ├── scripts/
+│   ├── __init__.py
+│   ├── analyze_reconciliation.py
 │   └── reconcile_projects.py
 ├── data/
-│   ├── projects.csv
 │   ├── employees.csv
+│   ├── funding_agreements.csv
 │   ├── labor.csv
-│   └── funding_agreements.csv
+│   └── projects.csv
 ├── output/
-│   ├── reconciliation_summary.csv
-│   └── powerbi_dashboard_data.csv
+│   ├── department_summary.csv
+│   ├── employee_labor_costs.csv
+│   ├── missing_funding_projects.csv
+│   ├── powerbi_dashboard_data.csv
+│   └── reconciliation_summary.csv
 └── sql_project_reconciliation.db
 ```
 
